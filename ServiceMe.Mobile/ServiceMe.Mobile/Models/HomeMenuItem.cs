@@ -7,7 +7,8 @@ namespace ServiceMe.Mobile.Models
     public enum MenuItemType
     {
         Browse,
-        About
+        About,
+        Customers
     }
     public class HomeMenuItem
     {
