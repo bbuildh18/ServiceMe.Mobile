@@ -8,7 +8,8 @@ namespace ServiceMe.Mobile.Models
     {
         Browse,
         About,
-        Customers
+        Customers,
+        Jobs
     }
     public class HomeMenuItem
     {

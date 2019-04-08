@@ -35,6 +35,9 @@ namespace ServiceMe.Mobile.Views
                     case (int)MenuItemType.Customers:
                         MenuPages.Add(id, new NavigationPage(new Customers()));
                         break;
+                    case (int)MenuItemType.Jobs:
+                        MenuPages.Add(id, new NavigationPage(new Jobs()));
+                        break;
                 }
             }
 
