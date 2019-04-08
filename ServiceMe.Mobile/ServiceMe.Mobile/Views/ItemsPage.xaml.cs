@@ -10,7 +10,7 @@ using Xamarin.Forms.Xaml;
 using ServiceMe.Mobile.Models;
 using ServiceMe.Mobile.Views;
 using ServiceMe.Mobile.ViewModels;
-
+//
 namespace ServiceMe.Mobile.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
