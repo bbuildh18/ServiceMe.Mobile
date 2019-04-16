@@ -32,5 +32,6 @@ namespace ServiceMe.Mobile.Views
 
             MasterPage.ListView.SelectedItem = null;
         }
+
     }
 }

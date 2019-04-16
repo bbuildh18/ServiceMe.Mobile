@@ -1,4 +1,6 @@
-﻿using System;
+﻿using ServiceMe.Mobile.Services;
+using ServiceMe.Mobile.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -16,31 +18,105 @@ namespace ServiceMe.Mobile.Views
     public partial class JobsMaster : ContentPage
     {
         public ListView ListView;
+        JobsMasterViewModel viewModel;
 
         public JobsMaster()
         {
             InitializeComponent();
 
-            BindingContext = new JobsMasterViewModel();
+            BindingContext = viewModel = new JobsMasterViewModel();
             ListView = MenuItemsListView;
         }
 
-        class JobsMasterViewModel : INotifyPropertyChanged
+
+        async void OnItemSelected(object sender, SelectedItemChangedEventArgs args)
+        {
+            var item = args.SelectedItem as JobsMenuItem;
+            if (item == null)
+                return;
+
+            await Navigation.PushAsync(new AJob(new JobDetailViewModel(item)));
+
+            // Manually deselect item.
+            ListView.SelectedItem = null;
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            if (viewModel.MenuItems.Count == 0)
+                viewModel.LoadJobsCommand.Execute(null);
+        }
+
+        async void AddItem_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PushModalAsync(new NavigationPage(new JobsDetail()));
+        }
+
+        public class JobsMasterViewModel : INotifyPropertyChanged
         {
             public ObservableCollection<JobsMenuItem> MenuItems { get; set; }
-            
+            public IDataStore<JobsMenuItem> DataStore => DependencyService.Get<IDataStore<JobsMenuItem>>() ?? new MockJobsStore();
+            public Command LoadJobsCommand { get; set; }
+            bool isBusy = false;
+            public bool IsBusy
+            {
+                get { return isBusy; }
+                set { SetProperty(ref isBusy, value); }
+            }
+
             public JobsMasterViewModel()
             {
-                MenuItems = new ObservableCollection<JobsMenuItem>(new[]
+                MenuItems = new ObservableCollection<JobsMenuItem>();
+                LoadJobsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+
+                MessagingCenter.Subscribe<JobsDetail, JobsMenuItem>(this, "AddItem", async (obj, item) =>
                 {
-                    new JobsMenuItem { Id = 0, Title = "Page 1" },
-                    new JobsMenuItem { Id = 1, Title = "Page 2" },
-                    new JobsMenuItem { Id = 2, Title = "Page 3" },
-                    new JobsMenuItem { Id = 3, Title = "Page 4" },
-                    new JobsMenuItem { Id = 4, Title = "Page 5" },
+                    var newItem = item as JobsMenuItem;
+                    MenuItems.Add(newItem);
+                    await DataStore.AddItemAsync(newItem);
                 });
             }
-            
+
+            public async Task ExecuteLoadItemsCommand()
+            {
+                if (IsBusy)
+                    return;
+
+                IsBusy = true;
+
+                try
+                {
+                    MenuItems.Clear();
+                    var items = await DataStore.GetItemsAsync(true);
+                    foreach (var item in items)
+                    {
+                        MenuItems.Add(item);
+                    }
+                }
+                catch (Exception ex)
+                {
+                   // Debug.WriteLine(ex);
+                }
+                finally
+                {
+                    IsBusy = false;
+                }
+            }
+            protected bool SetProperty<T>(ref T backingStore, T value,
+            [CallerMemberName]string propertyName = "",
+            Action onChanged = null)
+            {
+                if (EqualityComparer<T>.Default.Equals(backingStore, value))
+                    return false;
+
+                backingStore = value;
+                onChanged?.Invoke();
+                OnPropertyChanged(propertyName);
+                return true;
+            }
+
             #region INotifyPropertyChanged Implementation
             public event PropertyChangedEventHandler PropertyChanged;
             void OnPropertyChanged([CallerMemberName] string propertyName = "")

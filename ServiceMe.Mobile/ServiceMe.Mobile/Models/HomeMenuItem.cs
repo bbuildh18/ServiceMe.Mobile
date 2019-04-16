@@ -9,7 +9,7 @@ namespace ServiceMe.Mobile.Models
         Browse,
         About,
         Customers,
-        Jobs
+        JobMaster
     }
     public class HomeMenuItem
     {
