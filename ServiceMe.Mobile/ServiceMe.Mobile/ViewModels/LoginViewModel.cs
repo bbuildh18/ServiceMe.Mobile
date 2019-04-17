@@ -1,28 +1,15 @@
-﻿using ServiceMe.Mobile.Services;
-using ServiceMe.Mobile.Views;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Text;
-using Xamarin.Forms;
 
 namespace ServiceMe.Mobile.ViewModels
 {
-    public class JobDetailViewModel : INotifyPropertyChanged
+    public class LoginViewModel : INotifyPropertyChanged
     {
-        public IDataStore<JobsMenuItem> DataStore => DependencyService.Get<IDataStore<JobsMenuItem>>() ?? new MockJobsStore();
-
-        public int MyProperty { get; set; }
-        public JobsMenuItem Item { get; set; }
-
-        public JobDetailViewModel(JobsMenuItem Item)
-        {
-            this.Item = Item;
-        }
-        
-        public string Title { get; set; }
-        public string JobDescription { get; set; }
+        public string UserName { get; set; }
+        public string PW { get; set; }
 
         protected bool SetProperty<T>(ref T backingStore, T value,
           [CallerMemberName]string propertyName = "",

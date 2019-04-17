@@ -34,8 +34,10 @@ namespace ServiceMe.Mobile.Views
             var item = args.SelectedItem as JobsMenuItem;
             if (item == null)
                 return;
+           
 
-            await Navigation.PushAsync(new AJob(new JobDetailViewModel(item)));
+
+            await Navigation.PushModalAsync(new NavigationPage(new AJob(new JobDetailViewModel(item))));
 
             // Manually deselect item.
             ListView.SelectedItem = null;
@@ -77,6 +79,14 @@ namespace ServiceMe.Mobile.Views
                     MenuItems.Add(newItem);
                     await DataStore.AddItemAsync(newItem);
                 });
+
+                MessagingCenter.Subscribe<AJob, JobsMenuItem>(this, "UpdateItem", async (obj, item) =>
+                {
+                    var newItem = item as JobsMenuItem;
+                    MenuItems.Remove(MenuItems.FirstOrDefault(s => s.Id == newItem.Id));
+                    MenuItems.Add(newItem);
+                    await DataStore.UpdateItemAsync(newItem);
+                });
             }
 
             public async Task ExecuteLoadItemsCommand()
@@ -89,7 +99,7 @@ namespace ServiceMe.Mobile.Views
                 try
                 {
                     MenuItems.Clear();
-                    var items = await DataStore.GetItemsAsync(true);
+                    var items = await DataStore.GetItemsAsync(false);
                     foreach (var item in items)
                     {
                         MenuItems.Add(item);

@@ -21,18 +21,29 @@ namespace ServiceMe.Mobile.Views
             BindingContext = this.jobDetailViewModel = jobDetailViewModel;
 
         }
-        public AJob()
+        //public AJob()
+        //{
+        //    InitializeComponent();
+
+        //    var item = new JobsMenuItem
+        //    {
+        //        Id = Guid.NewGuid().ToString(),
+        //        Title = "This is an item description."
+        //    };
+
+        //    jobDetailViewModel = new JobDetailViewModel(item);
+        //    BindingContext = jobDetailViewModel;
+        //}
+
+        async void Save_Clicked(object sender, EventArgs e)
         {
-            InitializeComponent();
+            MessagingCenter.Send(this, "UpdateItem", jobDetailViewModel.Item);
+            await Navigation.PopModalAsync();
+        }
 
-            var item = new JobsMenuItem
-            {
-                Id = Guid.NewGuid().ToString(),
-                Title = "This is an item description."
-            };
-
-            jobDetailViewModel = new JobDetailViewModel(item);
-            BindingContext = jobDetailViewModel;
+        async void Cancel_Clicked(object sender, EventArgs e)
+        {
+            await Navigation.PopModalAsync();
         }
     }
 }

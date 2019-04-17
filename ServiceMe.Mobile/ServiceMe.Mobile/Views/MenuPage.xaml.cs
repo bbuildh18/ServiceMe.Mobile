@@ -18,13 +18,27 @@ namespace ServiceMe.Mobile.Views
 
             menuItems = new List<HomeMenuItem>
             {
-                new HomeMenuItem {Id = MenuItemType.Browse, Title="Browse" },
-                new HomeMenuItem {Id = MenuItemType.About, Title="About" },
-                new HomeMenuItem {Id = MenuItemType.Customers, Title="Customers" },
-                new HomeMenuItem {Id = MenuItemType.JobMaster, Title="Jobs" }
-
-
+                //new HomeMenuItem {Id = MenuItemType.Browse, Title="Browse" },
+                //new HomeMenuItem {Id = MenuItemType.About, Title="About" },
+                //new HomeMenuItem {Id = MenuItemType.Customers, Title="Customers" },
+                //new HomeMenuItem {Id = MenuItemType.JobMaster, Title="Jobs" }
             };
+
+            menuItems.Add(new HomeMenuItem { Id = MenuItemType.About, Title = "About" });
+
+            if (Utility.Role == "Consumer")
+            {
+                menuItems.Add(new HomeMenuItem { Id = MenuItemType.JobMaster, Title = "Jobs" });
+
+            }
+            else
+            {
+                menuItems.Add(new HomeMenuItem { Id = MenuItemType.Browse, Title = "Browse" });
+            }
+
+
+            //    menuItems.Add(new HomeMenuItem { Id = MenuItemType.Customers, Title = "Customers" });
+
 
             ListViewMenu.ItemsSource = menuItems;
 
