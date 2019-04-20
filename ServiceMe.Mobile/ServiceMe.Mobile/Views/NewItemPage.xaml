@@ -27,6 +27,7 @@
             <Entry Text="{Binding Item.Text}" FontSize="Small" />
             <Label Text="Description" FontSize="Medium" />
             <Editor Text="{Binding Item.Description}" FontSize="Small" Margin="0" />
+            <Button Text="Accept"></Button>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
