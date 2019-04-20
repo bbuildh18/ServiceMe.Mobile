@@ -1,39 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Text;
-
-namespace ServiceMe.Mobile.ViewModels
+﻿namespace ServiceMe.Mobile.ViewModels
 {
-    public class LoginViewModel : INotifyPropertyChanged
+    public class LoginViewModel : BaseViewModel// INotifyPropertyChanged
     {
-        public string UserName { get; set; }
-        public string PW { get; set; }
-
-        protected bool SetProperty<T>(ref T backingStore, T value,
-          [CallerMemberName]string propertyName = "",
-          Action onChanged = null)
+        string username = string.Empty;
+        public string UserName
         {
-            if (EqualityComparer<T>.Default.Equals(backingStore, value))
-                return false;
-
-            backingStore = value;
-            onChanged?.Invoke();
-            OnPropertyChanged(propertyName);
-            return true;
+            get { return username; }
+            set { SetProperty(ref username, value); }
         }
 
-        #region INotifyPropertyChanged
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged([CallerMemberName] string propertyName = "")
+        string pw = string.Empty;
+        public string PW
         {
-            var changed = PropertyChanged;
-            if (changed == null)
-                return;
-
-            changed.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            get { return pw; }
+            set { SetProperty(ref pw, value); }
         }
-        #endregion
     }
 }

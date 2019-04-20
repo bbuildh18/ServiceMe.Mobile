@@ -7,26 +7,49 @@ using Xamarin.Forms;
 
 using ServiceMe.Mobile.Models;
 using ServiceMe.Mobile.Views;
+using ServiceMe.Mobile.Services;
 
 namespace ServiceMe.Mobile.ViewModels
 {
     public class ItemsViewModel : BaseViewModel
     {
         public ObservableCollection<Item> Items { get; set; }
+        public ObservableCollection<JobsMenuItem> JobItems { get; set; }
+        public IDataStore<JobsMenuItem> DataStoreJobs => DependencyService.Get<IDataStore<JobsMenuItem>>() ?? new MockJobsStore();
+
+
         public Command LoadItemsCommand { get; set; }
+        public Command LoadJobsCommand { get; set; }
+
 
         public ItemsViewModel()
         {
-            Title = "Browse";
-            Items = new ObservableCollection<Item>();
-            LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
-
-            MessagingCenter.Subscribe<NewItemPage, Item>(this, "AddItem", async (obj, item) =>
+            if (Utility.Role == "Producer")
             {
-                var newItem = item as Item;
-                Items.Add(newItem);
-                await DataStore.AddItemAsync(newItem);
-            });
+                Title = "Browse";
+                Items = new ObservableCollection<Item>();
+                LoadItemsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+
+                MessagingCenter.Subscribe<NewItemPage, Item>(this, "AddItem", async (obj, item) =>
+                {
+                    var newItem = item as Item;
+                    Items.Add(newItem);
+                    await DataStore.AddItemAsync(newItem);
+                });
+            }
+            else
+            {
+                Title = "Jobs";
+                JobItems = new ObservableCollection<JobsMenuItem>();
+                LoadJobsCommand = new Command(async () => await ExecuteLoadJobsCommand());
+
+                MessagingCenter.Subscribe<NewItemPage, Item>(this, "AddItem", async (obj, item) =>
+                {
+                    var newItem = item as Item;
+                    Items.Add(newItem);
+                    await DataStore.AddItemAsync(newItem);
+                });
+            }
         }
 
         async Task ExecuteLoadItemsCommand()
@@ -48,6 +71,32 @@ namespace ServiceMe.Mobile.ViewModels
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
+        public async Task ExecuteLoadJobsCommand()
+        {
+            if (IsBusy)
+                return;
+
+            IsBusy = true;
+
+            try
+            {
+                JobItems.Clear();
+                var items = await DataStoreJobs.GetItemsAsync(false);
+                foreach (var item in items)
+                {
+                    JobItems.Add(item);
+                }
+            }
+            catch (Exception ex)
+            {
+                // Debug.WriteLine(ex);
             }
             finally
             {

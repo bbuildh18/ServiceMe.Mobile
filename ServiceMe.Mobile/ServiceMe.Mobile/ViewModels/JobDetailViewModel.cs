@@ -11,7 +11,7 @@ namespace ServiceMe.Mobile.ViewModels
 {
     public class JobDetailViewModel : INotifyPropertyChanged
     {
-        public IDataStore<JobsMenuItem> DataStore => DependencyService.Get<IDataStore<JobsMenuItem>>() ?? new MockJobsStore();
+            public IDataStore<JobsMenuItem> DataStore => DependencyService.Get<IDataStore<JobsMenuItem>>() ?? new MockJobsStore();
 
         public int MyProperty { get; set; }
         public JobsMenuItem Item { get; set; }

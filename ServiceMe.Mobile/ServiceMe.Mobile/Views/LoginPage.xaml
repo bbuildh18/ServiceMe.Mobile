@@ -26,10 +26,14 @@
         </ToolbarItem>
     </ContentPage.ToolbarItems>-->
     <StackLayout Padding="10">
-        <Label Text="Text" FontSize="Medium" />
+        <Label Text="User Name" FontSize="Medium" />
         <Entry Text="{Binding UserName}" FontSize="Small" />
-        <Label Text="Description" FontSize="Medium" />
+        <Label Text="Password" FontSize="Medium" />
+        <Entry Text="{Binding PW}" FontSize="Small" />
         <Button Clicked="Save_Clicked"  Text="Login" TextColor="White"  
+                    FontAttributes="Bold" FontSize="Large" HorizontalOptions="FillAndExpand"  
+                    BackgroundColor="#088da5"  ></Button>
+        <Button Clicked="Cancel_Clicked"  Text="Reset" TextColor="White"  
                     FontAttributes="Bold" FontSize="Large" HorizontalOptions="FillAndExpand"  
                     BackgroundColor="#088da5"  ></Button>
     </StackLayout>

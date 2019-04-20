@@ -21,22 +21,22 @@ namespace ServiceMe.Mobile.Views
 
         }
 
-        async void Save_Clicked(object sender, EventArgs e)
+        void Save_Clicked(object sender, EventArgs e)
         {
             Utility.Role = "Producer";
 
-            if (loginViewModel.UserName == "prageeth")
+            if (loginViewModel.UserName.ToUpper() == "PRAGEETH")
             {
-                Utility.Role= "Consumer";
+                Utility.Role = "Consumer";
             }
-            //MessagingCenter.Send(this, "AddItem", Item);
-            // await Navigation.PushModalAsync(new MainPage());
+
             Application.Current.MainPage = new MainPage();
         }
 
-        async void Cancel_Clicked(object sender, EventArgs e)
+        void Cancel_Clicked(object sender, EventArgs e)
         {
-         //   await Navigation.PopModalAsync();
+            loginViewModel.UserName = "";
+            loginViewModel.PW = "";
         }
     }
 }

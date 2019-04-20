@@ -7,6 +7,7 @@ using Xamarin.Forms;
 
 using ServiceMe.Mobile.Models;
 using ServiceMe.Mobile.Services;
+using ServiceMe.Mobile.Views;
 
 namespace ServiceMe.Mobile.ViewModels
 {

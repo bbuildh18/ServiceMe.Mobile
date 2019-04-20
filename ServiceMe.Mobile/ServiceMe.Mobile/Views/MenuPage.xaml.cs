@@ -42,7 +42,7 @@ namespace ServiceMe.Mobile.Views
 
             ListViewMenu.ItemsSource = menuItems;
 
-            ListViewMenu.SelectedItem = menuItems[0];
+            //ListViewMenu.SelectedItem = menuItems[0];
             ListViewMenu.ItemSelected += async (sender, e) =>
             {
                 if (e.SelectedItem == null)

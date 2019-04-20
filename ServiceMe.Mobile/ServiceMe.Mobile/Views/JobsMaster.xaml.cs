@@ -71,7 +71,7 @@ namespace ServiceMe.Mobile.Views
             public JobsMasterViewModel()
             {
                 MenuItems = new ObservableCollection<JobsMenuItem>();
-                LoadJobsCommand = new Command(async () => await ExecuteLoadItemsCommand());
+                LoadJobsCommand = new Command(async () => await ExecuteLoadJobsCommand());
 
                 MessagingCenter.Subscribe<JobsDetail, JobsMenuItem>(this, "AddItem", async (obj, item) =>
                 {
@@ -89,7 +89,7 @@ namespace ServiceMe.Mobile.Views
                 });
             }
 
-            public async Task ExecuteLoadItemsCommand()
+            public async Task ExecuteLoadJobsCommand()
             {
                 if (IsBusy)
                     return;
