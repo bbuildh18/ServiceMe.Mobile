@@ -24,6 +24,36 @@
         <Entry Text="{Binding Item.Title}" FontSize="Small" />
         <Label Text="Description" FontSize="Medium" />
         <Editor Text="{Binding Item.JobDescription}" FontSize="Small" Margin="0" />
+        <Label Text="Producer" FontSize="Medium" />
+        <Picker x:Name="picker"
+        Title="Select a location">
+            <Picker.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>Colombo</x:String>
+                    <x:String>Galle</x:String>
+                    <x:String>Trinco</x:String>
+                    <x:String>Jaffna</x:String>
+                    <x:String>Matara</x:String>
+                    <x:String>Kandy</x:String>
+                    <x:String>Anuradapura</x:String>
+                </x:Array>
+            </Picker.ItemsSource>
+        </Picker>
+        <Label Text="Producer" FontSize="Medium" />
+        <Picker x:Name="picker3"
+        Title="Select a producer">
+            <Picker.ItemsSource>
+                <x:Array Type="{x:Type x:String}">
+                    <x:String>Mr.Anurada</x:String>
+                    <x:String>Mr.Pushpakumara</x:String>
+                    <x:String>Mr.Hameed</x:String>
+                    <x:String>Mr.Idunl</x:String>
+                    <x:String>Mr.Asanka</x:String>
+                    <x:String>Mr.Lochana</x:String>
+                    <x:String>Mr.Anwer</x:String>
+                </x:Array>
+            </Picker.ItemsSource>
+        </Picker>
     </StackLayout>
 
     <ContentPage.Content>
